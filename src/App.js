@@ -20,8 +20,9 @@ export default function App() {
   useEffect(() => {
     fetchShow()
       .then(res => {
+        console.log(res)
          setShow(res)
-         setSeasons(res._embedded.episodes)
+         setSeasons(formatSeasons(res._embedded.episodes))
       })
   }, []);
 
@@ -36,7 +37,7 @@ export default function App() {
 
   return (
     <div className="App">
-      <img className="poster-img" src={show.image.original} alt={show.name} />
+      <img  data-testid={"moviePoster"} className="poster-img" src={show.image.original} alt={show.name} />
       <h1>{show.name}</h1>
       {parse(show.summary)}
       <Dropdown
@@ -44,8 +45,9 @@ export default function App() {
         onChange={handleSelect}
         value={selectedSeason || "Select a season"}
         placeholder="Select an option"
+        data-testid="dropdown"
       />
-      <Episodes episodes={episodes} />
+      <Episodes data-testid={"episodesComponent"} episodes={episodes} />
     </div>
   );
 }
